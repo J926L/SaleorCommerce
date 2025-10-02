@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: saleor_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=saleor
+      - POSTGRES_USER=saleor
+      - POSTGRES_PASSWORD=saleor
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    container_name: saleor_backend
+    command: /app/entrypoint.sh
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env.docker
+    depends_on:
+      - db
+
+  storefront:
+    build: ./storefront
+    container_name: saleor_storefront
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/graphql/
+
+  dashboard:
+    build: ./dashboard
+    container_name: saleor_dashboard
+    ports:
+      - "3001:80"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000/graphql/
+
+volumes:
+  postgres_data:

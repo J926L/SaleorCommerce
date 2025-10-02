@@ -54,7 +54,7 @@ python manage.py runserver
 ```
 
 现在，GraphQL API 应该运行在 `http://127.0.0.1:8000/graphql/`
-Django 管理后台 `http://127.0.0.1:8000/admin/`
+Django 管理后台 `http://127.0.0.1:8000/username/`
 
 ## 代码风格和文档
 

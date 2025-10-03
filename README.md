@@ -2,25 +2,11 @@
 
 本项目是一个基于 Saleor 构建的完整、API 优先的无头电子商务平台。
 
-## 项目结构
-
-本项目由三个独立的部分组成：
-
-1.  **`/backend`**: 核心 API 和业务逻辑。
-    *   **技术栈**: Python, Django, Graphene (GraphQL)
-    *   **数据库**: SQLite (本地开发) / PostgreSQL (Docker)
-
-2.  **`/storefront`**: 面向客户的店面应用程序。
-    *   **技术栈**: Next.js, React, TypeScript, Apollo Client, Tailwind CSS
-
-3.  **`/dashboard`**: 用于商店管理的仪表板应用程序。
-    *   **技术栈**: React, TypeScript, Apollo Client
-
 ## 快速开始
 
 我们提供两种方式来运行本项目：**使用 Docker** 或 **本地手动运行**。
 
-### 1. 使用 Docker (未测试)
+### 1. 使用 Docker
 
 这是最简单、最一致的运行方式。它会自动设置所有服务，包括数据库。
 
@@ -41,6 +27,20 @@
 *   **店面 (Storefront)**: `http://localhost:3000`
 *   **仪表板 (Dashboard)**: `http://localhost:3001`
 *   **后端 API (Backend)**: `http://localhost:8000/graphql/`
+
+## 项目结构
+
+本项目由三个独立的部分组成：
+
+1.  **`/backend`**: 核心 API 和业务逻辑。
+    *   **技术栈**: Python, Django, Graphene (GraphQL)
+    *   **数据库**: SQLite (本地开发) / PostgreSQL (Docker)
+
+2.  **`/storefront`**: 面向客户的店面应用程序。
+    *   **技术栈**: Next.js, React, TypeScript, Apollo Client, Tailwind CSS
+
+3.  **`/dashboard`**: 用于商店管理的仪表板应用程序。
+    *   **技术栈**: React, TypeScript, Apollo Client
 
 ## 目标
 

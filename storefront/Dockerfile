@@ -1,31 +1,34 @@
-# ---- Base Stage ----
-# 基础镜像，包含所有构建工具
-FROM node:18-alpine AS base
+# ---- Build Stage ----
+# 使用 Node.js 镜像来构建 Next.js 应用
+FROM node:18-alpine AS build
+
 WORKDIR /app
+
+# 复制 package.json 和 package-lock.json (如果存在)
 COPY package*.json ./
 
-# ---- Dependencies Stage ----
-# 仅安装生产环境依赖
-FROM base AS deps
-RUN npm install --production
+# 安装所有依赖
+RUN npm install
 
-# ---- Build Stage ----
-# 构建 Next.js 应用
-FROM base AS build
-COPY --from=deps /app/node_modules ./node_modules
+# 复制所有项目文件
 COPY . .
+
+# 构建生产版本的应用
 RUN npm run build
 
 # ---- Production Stage ----
 # 最终的生产镜像
-FROM base AS production
-ENV NODE_ENV=production
+FROM node:18-alpine
 
-# 从构建阶段复制构建好的应用
+WORKDIR /app
+
+# 从构建阶段复制构建好的应用和生产环境依赖
 COPY --from=build /app/public ./public
 COPY --from=build /app/.next ./.next
-COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package.json ./
+
+# 安装生产环境依赖
+RUN npm install --production
 
 # 暴露端口
 EXPOSE 3000

@@ -7,9 +7,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_DB=saleor
-      - POSTGRES_USER=saleor
-      - POSTGRES_PASSWORD=saleor
+      - POSTGRES_DB=${DB_NAME:-saleor}
+      - POSTGRES_USER=${DB_USER:-saleor}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-saleor}
     ports:
       - "5432:5432"
 
@@ -22,7 +22,7 @@ services:
     ports:
       - "8000:8000"
     env_file:
-      - ./backend/.env.docker
+      - .env.docker
     depends_on:
       - db
 
@@ -31,16 +31,20 @@ services:
     container_name: saleor_storefront
     ports:
       - "3000:3000"
-    environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:8000/graphql/
+    env_file:
+      - .env.docker
+    depends_on:
+      - backend
 
   dashboard:
     build: ./dashboard
     container_name: saleor_dashboard
     ports:
       - "3001:80"
-    environment:
-      - REACT_APP_API_URL=http://localhost:8000/graphql/
+    env_file:
+      - .env.docker
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:

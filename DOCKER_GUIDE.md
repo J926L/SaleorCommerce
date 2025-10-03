@@ -15,8 +15,6 @@
 
 **1. 克隆仓库**
 
-如果你还没有克隆项目，请先克隆：
-
 ```bash
 git clone https://github.com/J926L/SaleorCommerce.git
 cd SaleorCommerce
@@ -24,32 +22,32 @@ cd SaleorCommerce
 
 **2. 配置环境变量**
 
-后端服务需要一个私有的 `SECRET_KEY` 才能安全运行。
+*   将项目根目录下的 `.env.docker.example` 文件复制为 `.env.docker`。
+*   你需要为后端服务生成一个私有的 `SECRET_KEY`。
 
-*   打开 `backend/.env.docker` 文件。
-*   你需要生成一个新的密钥来替换占位符 `your-secret-key-goes-here`。
-
-你可以通过在终端运行以下 Python 命令来快速生成一个安全的密钥：
+由于密钥需要在 Docker 容器内生成，请先运行一次构建命令：
 
 ```bash
-python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
+docker-compose build backend
 ```
 
-*   复制生成的密钥，并将其粘贴到 `.env.docker` 文件中，然后保存文件。例如：
+然后，运行以下命令来生成密钥：
 
-    ```env
-    SECRET_KEY='p@d)2$b5m!q-z+x&n*c)k@l^s&o!w#y$t(r@u*e&f'
-    ```
+```bash
+docker-compose run --rm backend python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
+```
+
+*   复制终端输出的密钥，并将其粘贴到 `.env.docker` 文件的 `SECRET_KEY=` 后面，然后保存文件。
 
 **3. 构建并启动服务**
 
-在项目的根目录（即 `docker-compose.yml` 文件所在的目录）下，运行以下命令：
+在项目的根目录下，运行以下命令：
 
 ```bash
 docker-compose up --build
 ```
 
-*   `--build` 参数会强制 Docker 根据 `Dockerfile` 重新构建镜像。第一次启动时必须使用它。后续如果修改了 `Dockerfile` 或 `requirements.txt` 等文件，也需要使用此参数。
+*   `--build` 参数会强制 Docker 根据 `Dockerfile` 重新构建镜像。第一次启动时必须使用它。
 *   Docker 将开始构建所有服务的镜像并依次启动它们。这个过程在第一次运行时可能需要几分钟。
 
 **4. 访问应用**
@@ -72,15 +70,11 @@ docker-compose down
 
 **在后台运行服务**
 
-如果你希望服务在后台运行，而不是占据你的终端窗口：
-
 ```bash
 docker-compose up -d
 ```
 
 **查看日志**
-
-实时查看特定服务的日志对于调试非常有用。例如，查看后端服务的日志：
 
 ```bash
 docker-compose logs -f backend
@@ -88,19 +82,15 @@ docker-compose logs -f backend
 
 **创建超级用户**
 
-由于服务在容器内运行，你需要使用 `docker-compose run` 来执行 `manage.py` 命令。例如，创建一个 Django 超级用户：
-
 ```bash
 docker-compose run --rm backend python manage.py createsuperuser
 ```
 
-*   `--rm` 参数表示命令执行完毕后自动删除临时容器，保持环境整洁。
-
 ## Docker 配置概览
 
-*   `docker-compose.yml`: 项目的核心编排文件，定义了 `db`, `backend`, `storefront`, `dashboard` 四个服务以及它们之间的关系。
+*   `docker-compose.yml`: 项目的核心编排文件，定义了所有服务及其关系。
+*   `.env.docker.example`: Docker 环境的配置模板。
 *   `backend/Dockerfile`: 定义了如何构建 Django 后端镜像。
 *   `storefront/Dockerfile`: 定义了如何构建 Next.js 店面镜像。
 *   `dashboard/Dockerfile`: 定义了如何构建 React 仪表板并使用 Nginx 托管。
 *   `backend/entrypoint.sh`: 在后端容器启动时自动运行数据库迁移并启动 Gunicorn 服务器的脚本。
-*   `backend/.env.docker`: 专门为 Docker 环境提供的环境变量文件。

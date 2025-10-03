@@ -1,13 +1,8 @@
+> **注意:** 这是仪表板服务的独立说明。为了获得最佳体验和完整的项目设置，请优先参考项目根目录的 `README.md` 和 `DOCKER_GUIDE.md`。
+
 # 仪表板 (Saleor Commerce)
 
 这是 Saleor Commerce 项目的管理仪表板。它是一个使用 React 和 TypeScript 构建的单页应用程序 (SPA)，用于管理商店的各个方面。
-
-## 功能特性
-
-*   **订单管理**: 查看、处理和管理订单。
-*   **产品管理**: 创建、更新和管理产品、类别和集合。
-*   **客户管理**: 查看和管理客户账户。
-*   **商店配置**: 配置商店设置、运输方式和支付网关。
 
 ## 技术栈
 
@@ -16,12 +11,12 @@
 *   **GraphQL 客户端**: Apollo Client
 *   **构建工具**: Create React App
 
-## 环境搭建
+## 本地环境搭建 (不使用 Docker)
 
 **1. 进入仪表板目录:**
 
 ```bash
-cd SaleorCommerce/dashboard
+cd dashboard
 ```
 
 **2. 安装依赖:**
@@ -45,9 +40,4 @@ npm start
 yarn start
 ```
 
-现在，仪表板应该运行在 `http://localhost:3001` (或者 Create React App 指定的另一个端口)。
-
-## 代码风格和文档
-
-*   所有代码注释和面向用户的文本都必须使用 **简体中文**。
-*   遵循社区推崇的 React 和 TypeScript 最佳实践。
+现在，仪表板应该运行在 `http://localhost:3001`。

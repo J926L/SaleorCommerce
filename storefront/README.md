@@ -1,13 +1,8 @@
+> **注意:** 这是店面服务的独立说明。为了获得最佳体验和完整的项目设置，请优先参考项目根目录的 `README.md` 和 `DOCKER_GUIDE.md`。
+
 # 店面 (Saleor Commerce)
 
 这是 Saleor Commerce 项目的店面应用程序。它是一个使用 Next.js、React 和 TypeScript 构建的现代化、高性能的前端。
-
-## 功能特性
-
-*   **产品展示**: 首页、产品列表页和产品详情页。
-*   **购物车与结账**: 功能齐全的购物车和多步骤结账流程。
-*   **客户账户**: 用户登录、注册、订单历史和地址管理。
-*   **完全解耦**: 通过 GraphQL API 与后端通信。
 
 ## 技术栈
 
@@ -16,12 +11,12 @@
 *   **GraphQL 客户端**: Apollo Client
 *   **样式**: Tailwind CSS
 
-## 环境搭建
+## 本地环境搭建 (不使用 Docker)
 
 **1. 进入店面目录:**
 
 ```bash
-cd SaleorCommerce/storefront
+cd storefront
 ```
 
 **2. 安装依赖:**
@@ -46,7 +41,3 @@ yarn dev
 ```
 
 现在，店面应该运行在 `http://localhost:3000`。
-
-## 代码风格和文档
-
-*   遵循社区推崇的 React 和 TypeScript 最佳实践。
